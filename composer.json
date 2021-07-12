@@ -17,7 +17,7 @@
         "composer/composer": "^2.0"
     },
     "extra": {
-        "class": "arocom\\arocoml3dmigration\\Plugin"
+        "class": "arocom\\arocoml3dmigration"
     },
     "autoload": {
         "psr-4": {
