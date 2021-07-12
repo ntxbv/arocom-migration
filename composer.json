@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-        "arocom\\arocoml3dmigration": "src/"
+        "arocom\\arocoml3dmigration\\": "src/"
         }
     }
 }
