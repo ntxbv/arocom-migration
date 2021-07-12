@@ -9,6 +9,7 @@ use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
+
 /**
  * Class Handler.
  *
@@ -19,7 +20,7 @@ class arocoml3dmigration implements PluginInterface{
 
     public function activate(Composer $composer, IOInterface $io)
     {
-        $installer = new ArocomInstaller($io, $composer);
+        $installer = new arocoml3dmigration($io, $composer);
         $composer->getInstallationManager()->addInstaller($installer);
     }
     /**
