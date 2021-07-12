@@ -1,0 +1,27 @@
+{
+    "name": "arocom/arocom-migration",
+    "description": "Migration Plugin for arocom Projects which uses L3D instead of DrupalVM. This Plugin adds functionality for an kickstart of existing arocom Projects.",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nils Traut",
+            "email": "traut@arocom.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "composer-plugin-api": "^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^2.0"
+    },
+    "extra": {
+        "class": "arocom\\arocoml3dmigration"
+    },
+    "autoload": {
+        "psr-4": {
+            "arocom\\arocoml3dmigration\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,50 @@
+ahoyapi: v2
+commands:
+  changelog:
+    imports:
+      - ./.ahoy.l3d/changelog.yml
+    usage: 'Changelog tools.'
+  dorgflow:
+    imports:
+      - ./vendor/lakedrops/dorgflow/ahoy.yml
+    usage: 'Dorgflow settings and updates'
+  d4d:
+    imports:
+      - ./vendor/lakedrops/docker4drupal/ahoy.yml
+    usage: 'Docker for Drupal'
+  live:
+    imports:
+      - ./vendor/lakedrops/docker4drupal/ahoy.live.yml
+    usage: 'Interact with the live site'
+  current:
+    imports:
+      - ./vendor/lakedrops/docker4drupal/ahoy.current.yml
+    usage: 'Interact with the live site of the current stage'
+  debug:
+    imports:
+      - ./vendor/lakedrops/docker4drupal/ahoy.debug.yml
+    usage: 'PHP debugging'
+  traefik:
+    imports:
+      - ./vendor/lakedrops/docker4drupal/ahoy.traefik.yml
+    usage: 'Traefik commands'
+  behat:
+    imports:
+      - ./vendor/lakedrops/behat4drupal/ahoy.yml
+    usage: 'Behat for Drupal'
+  me:
+    imports:
+      - ./vendor/lakedrops/ahoy/ahoy.yml
+    usage: 'Ahoy plugin commands'
+  dev:
+    imports:
+      - ./vendor/lakedrops/drupal-development-environment/ahoy.yml
+    usage: 'Development tools for Drupal'
+  test:
+    imports:
+      - ./vendor/lakedrops/drupal-development-environment/ahoy.test.yml
+    usage: 'Test tools'
+  ar:
+    imports:
+      - ./vendor/arocom/ahoy.arocom.yml
+    usage: 'arocom wrapper functions'

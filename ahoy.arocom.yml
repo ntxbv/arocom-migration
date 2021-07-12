@@ -1,0 +1,22 @@
+ahoyapi: v2
+commands:
+  ga:
+    cmd: |
+      docker exec ${COMPOSE_PROJECT_NAME}_l3d sh -c 'sudo apk add --no-cache --upgrade grep'
+    usage: "enable Grep"
+  re:
+    cmd: |
+      docker exec ${COMPOSE_PROJECT_NAME}_redis_1 sh -c 'redis-cli flushall'
+    usage: "flush redis cache"
+  re-off:
+    cmd: |
+      docker stop {COMPOSE_PROJECT_NAME}_redis_1
+      sed -i -e 799,849's/.*/#&/' ./settings/default/settings.php
+      sed -i -e 885,889's/.*/#&/' ./settings/default/settings.php
+    usage: "disable redis for local development"
+  re-on:
+    cmd: |
+      docker start {COMPOSE_PROJECT_NAME}_redis_1
+      sed -i -e 799,849's/#/''/' ./settings/default/settings.php
+      sed -i -e 885,889's/#//' ./settings/default/settings.php
+    usage: "disable redis for local development"
