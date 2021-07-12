@@ -1,6 +1,6 @@
 <?php
 namespace arocom\arocoml3dmigration;
-
+require_once "vendor/autoload.php";
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
