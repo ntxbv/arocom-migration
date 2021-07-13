@@ -16,12 +16,12 @@
     "require-dev": {
         "composer/composer": "^2.0"
     },
-    "extra": {
-        "class": "arocom/arocom-migration"
-    },
     "autoload": {
         "psr-4": {
-        "arocoml3dmigration\\": "src/"
+            "arocom\\arocoml3dmigration\\": "src/"
         }
+    },
+    "extra": {
+        "class": "arocom\\arocoml3dmigration\\Plugin"
     }
 }

@@ -1,5 +1,11 @@
 <?php
-namespace arocoml3dmigration;
+/**
+ * @file
+ * Contains arocom\arocoml3dmigration\Plugin.
+ */
+
+
+namespace arocom\arocoml3dmigration;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
@@ -10,18 +16,20 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 
+
 /**
  * Class Handler.
  *
  * @package arocom\arocom-migration
  */
 
-class arocoml3dmigration implements PluginInterface{
-
+class Plugin implements PluginInterface{
+    protected $composer;
+    protected $io;
     public function activate(Composer $composer, IOInterface $io)
     {
-        $installer = new arocoml3dmigration($io, $composer);
-        $composer->getInstallationManager()->addInstaller($installer);
+        $this->composer = $composer;
+        $this->io = $io;
     }
     /**
      * {@inheritdoc}
