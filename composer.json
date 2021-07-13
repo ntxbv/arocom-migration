@@ -17,11 +17,11 @@
         "composer/composer": "^2.0"
     },
     "extra": {
-        "class": "arocom\\arocoml3dmigration"
+        "class": "arocom/arocom-migration"
     },
     "autoload": {
         "psr-4": {
-            "arocom\\arocoml3dmigration\\": "src/"
+        "arocoml3dmigration\\": "src/"
         }
     }
 }
