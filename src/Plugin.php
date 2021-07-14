@@ -47,6 +47,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
             ),
         );
     }
+    public function onPreFileDownload(PreFileDownloadEvent $event)
+    {
+        $protocol = parse_url($event->getProcessedUrl(), PHP_URL_SCHEME);
+
+        if ($protocol === 's3') {
+            // ...
+        }
+    }
     public function getCapabilities()
     {
         return array(
@@ -79,7 +87,8 @@ protected function applyaroscaffs(){
         exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
         exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
         exec("sed -i -e '168d' ./settings/default/settings.local.php");
-    
+        exec("sed -i -e 's/i <=/i </' ./scripts/composer/ScriptHandler.php");
+
 }
 
 
