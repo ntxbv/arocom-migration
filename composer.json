@@ -18,10 +18,10 @@
     },
     "autoload": {
         "psr-4": {
-            "arocom\\arocoml3dmigration\\": "src/"
+            "Arocom\\arocoml3dmigration\\": "src/"
         }
     },
     "extra": {
-        "class": "arocom\\arocoml3dmigration\\Plugin"
+        "class": "Arocom\\arocoml3dmigration\\Plugin"
     }
 }
