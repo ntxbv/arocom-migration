@@ -1,19 +1,21 @@
 <?php
 /**
  * @file
- * Contains arocom\arocoml3dmigration\Plugin.
+ * Contains Arocom\arocoml3dmigration\Plugin.
  */
 
 
-namespace arocom\arocoml3dmigration;
+namespace Arocom\arocoml3dmigration;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
+use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Plugin\PluginInterface;
 use DrupalFinder\DrupalFinder;
 use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
+use Composer\Plugin\Capable;
 
 
 
@@ -23,13 +25,19 @@ use Symfony\Component\Yaml\Yaml;
  * @package arocom\arocom-migration
  */
 
-class Plugin implements PluginInterface{
+class Plugin implements PluginInterface, EventSubscriberInterface{
     protected $composer;
     protected $io;
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io = $io;
+    }
+    public function getCapabilities()
+    {
+        return array(
+            'Composer\Plugin\Capability\CommandProvider' => 'Arocom\arocoml3dmigration\CommandProvider',
+        );
     }
     /**
      * {@inheritdoc}
