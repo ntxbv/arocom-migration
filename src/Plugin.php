@@ -59,7 +59,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
     /**
      * {@inheritdoc}
      */
-protected function applyaroscaffs(){
+public function applyaroscaffs(Event $event): void {
     $fs = new Filesystem();
     $drupalFinder = new DrupalFinder();
     $drupalFinder->locateRoot(getcwd());
