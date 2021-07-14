@@ -27,21 +27,27 @@ use Composer\Script\ScriptEvents;
  * @package arocom\arocom-migration
  */
 
-class Plugin implements PluginInterface, EventSubscriberInterface{
+class Plugin implements PluginInterface, EventSubscriberInterface
+{
     protected $composer;
     protected $io;
+
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io = $io;
     }
+
     public function deactivate(Composer $composer, IOInterface $io)
     {
     }
+
     public function uninstall(Composer $composer, IOInterface $io)
     {
     }
-    public static function getSubscribedEvents(): array {
+
+    public static function getSubscribedEvents(): array
+    {
         return [
             ScriptEvents::POST_CREATE_PROJECT_CMD => 'applyaroscaffs',
             ScriptEvents::POST_INSTALL_CMD => 'applyaroscaffs',
@@ -56,10 +62,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
             'Composer\Plugin\Capability\CommandProvider' => 'Arocom\arocoml3dmigration\CommandProvider',
         );
     }
+
     /**
      * {@inheritdoc}
      */
-    public function applyaroscaffs(Event $event): void {
+    public function applyaroscaffs(Event $event): void
+    {
         $fs = new Filesystem();
         $drupalFinder = new DrupalFinder();
         $drupalFinder->locateRoot(getcwd());
@@ -79,15 +87,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
             }
         }
         // Append the settings files from the project onto l3d settings files
-        exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
-        exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
-        exec("sed -i -e '168d' ./settings/default/settings.local.php");
-
+        for ($i = 1; $i < 1; $i++) {
+            exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
+            exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
+            exec("sed -i -e '168d' ./settings/default/settings.local.php");
+            exec("sed -i -e 's/i <=/i </' ./Plugin.php");
+        }
     }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
