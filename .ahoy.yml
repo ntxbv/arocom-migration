@@ -46,5 +46,5 @@ commands:
     usage: 'Test tools'
   ar:
     imports:
-      - ./vendor/arocom/ahoy.arocom.yml
+      - ./vendor/arocom/arocom-migration/ahoy.arocom.yml
     usage: 'arocom wrapper functions'
