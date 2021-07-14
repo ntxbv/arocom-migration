@@ -16,7 +16,7 @@ use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 use Composer\Plugin\Capable;
-
+use Composer\Plugin\PluginEvents;
 
 
 /**
