@@ -33,6 +33,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
         $this->composer = $composer;
         $this->io = $io;
     }
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+    }
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+    }
+    public static function getSubscribedEvents()
+    {
+        return array(
+            PluginEvents::PRE_FILE_DOWNLOAD => array(
+                array('onPreFileDownload', 0)
+            ),
+        );
+    }
     public function getCapabilities()
     {
         return array(
