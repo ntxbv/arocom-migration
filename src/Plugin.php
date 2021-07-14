@@ -47,14 +47,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
             ),
         );
     }
-    public function onPreFileDownload(PreFileDownloadEvent $event)
-    {
-        $protocol = parse_url($event->getProcessedUrl(), PHP_URL_SCHEME);
-
-        if ($protocol === 's3') {
-            // ...
-        }
-    }
+    
     public function getCapabilities()
     {
         return array(
