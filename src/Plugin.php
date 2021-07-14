@@ -39,15 +39,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface{
     public function uninstall(Composer $composer, IOInterface $io)
     {
     }
-    public static function getSubscribedEvents()
-    {
-        return array(
-            PluginEvents::PRE_FILE_DOWNLOAD => array(
-                array('onPreFileDownload', 0)
-            ),
-        );
+    public static function getSubscribedEvents(): array {
+        return [
+            ScriptEvents::POST_CREATE_PROJECT_CMD => 'applyaroscaffs',
+            ScriptEvents::POST_INSTALL_CMD => 'applyaroscaffs',
+            ScriptEvents::POST_UPDATE_CMD => 'applyaroscaffs',
+        ];
     }
-    
+
+
     public function getCapabilities()
     {
         return array(
