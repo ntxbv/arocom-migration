@@ -81,7 +81,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $settingsPhpFile = $settingsPath . '/settings.php';
         if ($fs->exists($settingsPhpFile)) {
             $settingsPhp = file_get_contents($settingsPhpFile);
-            if (strpos($settingsPhp, 'settings.docker.php') === FALSE) {
+            if (strpos($settingsPhp, '../drupal/') === FALSE) {
                 $settingsPhp .= "\n\nif (file_exists('../drupal/sites/default/settings.docker.php')) {\n  include  '../drupal/sites/default/settings.docker.php';\n}\n";
                 file_put_contents($settingsPhpFile, $settingsPhp);
             }
