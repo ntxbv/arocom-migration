@@ -137,7 +137,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         // Adding Files to .gitignores
         $gitIgnore = $composerRoot . '/.gitignore';
         if (strpos($gitIgnore, 'settings/') === FALSE) {
-            "echo settings/ >> .gitignore";
+            echo "settings/ >> .gitignore";
         }
         }
 
