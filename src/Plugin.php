@@ -19,6 +19,7 @@ use Composer\Plugin\Capable;
 use Composer\Plugin\PluginEvents;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Drupal\Core\Site\Settings;
 
 
 /**
@@ -73,9 +74,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $drupalFinder->locateRoot(getcwd());
         $drupalRoot = $drupalFinder->getDrupalRoot();
         $composerRoot = $drupalFinder->getComposerRoot();
+        $handlerRoot = $drupalFinder->getVendorDir();
         if (!$fs->exists($composerRoot . '.ahoy.yml') || ($fs->exists($composerRoot . '.ahoy.yml'))) {
             copy($composerRoot . '/vendor/arocom/arocom-migration/.ahoy.yml', $composerRoot . '/.ahoy.yml');
         }
+
         // Make sure that settings.docker.php gets called from settings.php.
         $settingsPath = $composerRoot . '/settings/default';
         $settingsPhpFile = $settingsPath . '/settings.php';
@@ -87,13 +90,54 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             }
         }
         // Append the settings files from the project onto l3d settings files
-        for ($i = 1; $i <= 1; $i++) {
+        for ($i = 1; $i < 1; $i++) {
             exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
             exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
             exec("sed -i -e '168d' ./settings/default/settings.local.php");
-            exec("sed -i -e 's/i <=/i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
+            exec("sed -i -e 's/i </i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
         }
-    }
+// Alter settings.php
+        if ($fs->exists($composerRoot . '/settings/default/settings.php') && $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
+            new Settings([]);
+            require_once $drupalRoot . '/core/includes/install.inc';
+            require_once $drupalRoot . '/core/includes/bootstrap.inc';
+            $settings['settings']['redis.connection']['host'] = (object)[
+                'value' => 'redis',
+                'required' => TRUE,
+            ];
+            drupal_rewrite_settings($settings, $composerRoot . '/settings/default/settings.php');
+            $settings['settings']['redis.connection']['port'] = (object)[
+                'value' => '6379',
+                'required' => TRUE,
+            ];
+            drupal_rewrite_settings($settings, $composerRoot . '/settings/default/settings.php');
+            $settings['settings']['cache']['bins']['bootstrap'] = (object)[
+                'value' => 'cache.backend.chainedfast',
+                'required' => TRUE,
+            ];
+            drupal_rewrite_settings($settings, $composerRoot . '/settings/default/settings.php');
+            $settings['settings']['cache']['bins']['discovery'] = (object)[
+                'value' => 'cache.backend.chainedfast',
+                'required' => TRUE,
+            ];
+            drupal_rewrite_settings($settings, $composerRoot . '/settings/default/settings.php');
+            $settings['settings']['cache']['bins']['config'] = (object)[
+                'value' => 'cache.backend.chainedfast',
+                'required' => TRUE,
+            ];
+            drupal_rewrite_settings($settings, $composerRoot . '/settings/default/settings.php');
+            $fs->chmod($composerRoot . '/settings/default/settings.php', 0666);
+            $event->getIO()->write("Adjusted the settings/default/settings.php file with chmod 0666");
+        }
+        // Alter ScriptHandler so we can get l3d functionality for every project
+        $handlerPath = $handlerRoot . '/arocom/scripthandler';
+        $handlerPhpFile = $handlerPath . '/ScriptHandler.php';
+        file_put_contents($handlerPhpFile, str_replace('file_put_contents("$drupalRoot/sites/development.services.yml", $yaml);', 'file_put_contents("$drupalRoot/sites/default/development.services.yml", $yaml);', file_get_contents($handlerPhpFile)));
+        file_put_contents($handlerPhpFile, str_replace('redis-cli flushall 2>&1', 'ahoy ar re 2>&1', file_get_contents($handlerPhpFile)));
+        }
+
+
+
 }
 
 
