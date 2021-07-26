@@ -94,7 +94,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
             exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
             exec("sed -i -e '168d' ./settings/default/settings.local.php");
-            exec("sed -i -e 's/i<= /i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
+            exec("sed -i -e 's/i<=/i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
         }
 // Alter settings.php
         if ($fs->exists($composerRoot . '/settings/default/settings.php') && $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
@@ -134,18 +134,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $handlerPhpFile = $handlerPath . '/ScriptHandler.php';
         file_put_contents($handlerPhpFile, str_replace('file_put_contents("$drupalRoot/sites/development.services.yml", $yaml);', 'file_put_contents("$drupalRoot/sites/default/development.services.yml", $yaml);', file_get_contents($handlerPhpFile)));
         file_put_contents($handlerPhpFile, str_replace('redis-cli flushall 2>&1', 'ahoy ar re 2>&1', file_get_contents($handlerPhpFile)));
-        
+
         // Add patterns to .gitignore
-        $fp = fopen($composerRoot . '/.gitignore', 'a');
-        fwrite($fp, ' settings/default/'. "\n");
-        fwrite($fp, 'files/default/' . "\n");
-        fclose($fp);
-        echo '\n'. ">>>patterns appended successfully to .gitignore<<<";
-          
+        $gitFile = $composerRoot . '/.gitignore';
+        if ($fs->exists($gitFile)) {
+            $ignore = file_get_contents($gitFile);
+            if (strpos($ignore, 'settings/default/') === FALSE) {
+                $ignore .= "\nsettings/default/\nfiles/default/";
+                file_put_contents($gitFile, $ignore);
+            }
+        }
     }
 }
-
-
 
 
 
