@@ -134,12 +134,17 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $handlerPhpFile = $handlerPath . '/ScriptHandler.php';
         file_put_contents($handlerPhpFile, str_replace('file_put_contents("$drupalRoot/sites/development.services.yml", $yaml);', 'file_put_contents("$drupalRoot/sites/default/development.services.yml", $yaml);', file_get_contents($handlerPhpFile)));
         file_put_contents($handlerPhpFile, str_replace('redis-cli flushall 2>&1', 'ahoy ar re 2>&1', file_get_contents($handlerPhpFile)));
+        
         // Adding Files to .gitignores
         $gitIgnore = $composerRoot . '/.gitignore';
-        if (strpos($gitIgnore, 'settings/') === FALSE) {
-            echo "settings/ >> .gitignore";
+        $gitFiles = array("settings/default/", "files/default/");
+        foreach($gitFiles AS $file) {
+            if (strpos($gitIgnore, 'settings/') === FALSE) {
+                echo "$file" >> "$gitIgnore";
+
+            }
         }
-        }
+    }
 
 
 
