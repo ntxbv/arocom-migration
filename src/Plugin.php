@@ -78,25 +78,36 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if (!$fs->exists($composerRoot . '.ahoy.yml') || ($fs->exists($composerRoot . '.ahoy.yml'))) {
             copy($composerRoot . '/vendor/arocom/arocom-migration/.ahoy.yml', $composerRoot . '/.ahoy.yml');
         }
-
+        
         // Make sure that settings.docker.php gets called from settings.php.
         $settingsPath = $composerRoot . '/settings/default';
         $settingsPhpFile = $settingsPath . '/settings.php';
+        $settingsPhplocalFile = $settingsPath . '/settings.local.php';
         if ($fs->exists($settingsPhpFile)) {
             $settingsPhp = file_get_contents($settingsPhpFile);
             if (strpos($settingsPhp, '../drupal/') === FALSE) {
-                $settingsPhp .= "\n\nif (file_exists('../drupal/sites/default/settings.docker.php')) {\n  include  '../drupal/sites/default/settings.docker.php';\n}\n";
+                $settingsPhp .= "\nif (file_exists('../drupal/sites/default/settings.docker.php')) {\n  include  '../drupal/sites/default/settings.docker.php';\n}\n";
                 file_put_contents($settingsPhpFile, $settingsPhp);
             }
         }
         // Append the settings files from the project onto l3d settings files
-        for ($i = 1; $i <= 1; $i++) {
-            exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
-            exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
-            exec("sed -i -e '168d' ./settings/default/settings.local.php");
-            exec("sed -i -e 's/i<=/i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
+        if ($fs->exists($settingsPhpFile)) {
+            $settingsPhp = file_get_contents($settingsPhpFile);
+            if (strpos($settingsPhp, '// @codingStandardsIgnoreFile') === FALSE) {
+                exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
+            }
         }
-// Alter settings.php
+        if ($fs->exists($settingsPhplocalFile)) {
+            $settingsLocalPhp = file_get_contents($settingsPhplocalFile);
+            if (strpos($settingsLocalPhp, '// @codingStandardsIgnoreFile') === FALSE) {
+                exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
+                exec("sed -i -e '/salt.txt/d' ./settings/default/settings.local.php");
+            }
+        }
+        
+        
+
+        // Alter settings.php
         if ($fs->exists($composerRoot . '/settings/default/settings.php') && $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
             new Settings([]);
             require_once $drupalRoot . '/core/includes/install.inc';
@@ -146,6 +157,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 }
+        
 
 
 
