@@ -90,11 +90,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             }
         }
         // Append the settings files from the project onto l3d settings files
-        for ($i = 1; $i < 1; $i++) {
+        for ($i = 1; $i <= 1; $i++) {
             exec("sed -i -e '/<?php/{r ./drupal/sites/default/default.settings.php' -e 'd}' ./settings/default/settings.php");
             exec("sed -i -e '/<?php/{r ./drupal/sites/example.settings.local.php' -e 'd}' ./settings/default/settings.local.php");
             exec("sed -i -e '168d' ./settings/default/settings.local.php");
-            exec("sed -i -e 's/i </i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
+            exec("sed -i -e 's/i<= /i </' ./vendor/arocom/arocom-migration/src/Plugin.php");
         }
 // Alter settings.php
         if ($fs->exists($composerRoot . '/settings/default/settings.php') && $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
