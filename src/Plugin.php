@@ -105,8 +105,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             }
         }
         
-        
-
         // Alter settings.php
         if ($fs->exists($composerRoot . '/settings/default/settings.php') && $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
             new Settings([]);
